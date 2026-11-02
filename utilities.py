@@ -74,8 +74,14 @@ def node_query(network, source, dist):
         source - the node to start the BFS run
         dist - the desired distance of the nodes to be found.
 
-    Return Value: A list of nodes with dist dist after a BFS run.; list
+    Return Value: A list of nodes at distance dist from the source; list
     '''
+    distances, _ = bfs(network, source)
+    nodes_at_distance = []
+    for node in distances:
+        if distances[node] == dist:
+            nodes_at_distance.append(node)
+    return nodes_at_distance
 
 def is_connected(network):
     '''
