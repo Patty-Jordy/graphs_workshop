@@ -128,11 +128,10 @@ def is_connected(network):
         True - the graph is connected
         False - the graph is not connected
     '''
-
     if not network:
         return True
     start = next(iter(network))
-    distance, predecessor = bfs(network, start)
+    distance, _ = bfs(network, start)
     for node in network:
         if distance[node] == float("inf"):
             return False
