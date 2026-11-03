@@ -1,3 +1,4 @@
+import json
 def bfs(network, source):
     '''
     Purpose: Perform a breadth-first search on network starting
@@ -63,7 +64,39 @@ def path(network, source, dest):
     Return Value: a list containing a path from soruce to 
     destination.
     '''
+    visited = {}
+    predecessor = {}
 
+    for neighbor in network:
+        visited[neighbor] = False
+        predecessor[neighbor] = None
+
+    if source == dest:
+        return [source]
+    
+    visited[source] = True
+
+    Queue = [source]
+
+    while Queue != []:
+        current = Queue.pop(0)
+
+        for neighbor in network[current]:
+            if not visited[neighbor]:
+                visited[neighbor] = True
+                predecessor[neighbor] = current
+
+                if neighbor == dest:
+                    path = [dest]
+                    current = dest
+                    while current != source:
+                        current = predecessor[current]
+                        path.append(current)
+                    path.reverse()
+                    return path
+                Queue.append(neighbor)
+    
+    return []       
 def node_query(network, source, dist):
     '''
     Purpose: To return a list containing all nodes in the network
@@ -95,3 +128,12 @@ def is_connected(network):
         True - the graph is connected
         False - the graph is not connected
     '''
+
+    if not network:
+        return True
+    start = next(iter(network))
+    distance, predecessor = bfs(network, start)
+    for node in network:
+        if distance[node] == float("inf"):
+            return False
+    return False
